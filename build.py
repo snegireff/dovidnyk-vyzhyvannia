@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Assemble chapters/*.html (alphabetical) into one HTML, auto-generate TOC, render PDF."""
-import glob, re, os, sys
-from weasyprint import HTML
+"""Assemble chapters/*.html (alphabetical) into one HTML, auto-generate TOC, render PDF.
 
+    python3 build.py             # book.html + dovidnyk_vyzhyvannia.pdf + docs/ (needs weasyprint)
+    python3 build.py --web-only  # only book.html + docs/ (no weasyprint needed)
+"""
+import glob, re, os, sys, shutil
+
+WEB_ONLY = '--web-only' in sys.argv
 BASE = os.path.dirname(os.path.abspath(__file__))
 files = sorted(glob.glob(os.path.join(BASE, 'chapters', '*.html')))
 parts = [open(f, encoding='utf-8').read() for f in files]
@@ -33,15 +37,21 @@ html = ('<!DOCTYPE html><html lang="uk"><head><meta charset="utf-8"><title>До�
         '<link rel="stylesheet" href="style.css"></head><body>' + body + '</body></html>')
 out_html = os.path.join(BASE, 'book.html')
 open(out_html, 'w', encoding='utf-8').write(html)
-doc = HTML(out_html).render()
-pdf = os.path.join(BASE, 'dovidnyk_vyzhyvannia.pdf')
-doc.write_pdf(pdf)
-print(f'Pages: {len(doc.pages)}  ->  {pdf}')
 
 # ---- web version for GitHub Pages (docs/) ----
 docs = os.path.join(BASE, 'docs'); os.makedirs(docs, exist_ok=True)
 web_html = html.replace('<link rel="stylesheet" href="style.css">',
     '<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="web.css">')
 open(os.path.join(docs, 'index.html'), 'w', encoding='utf-8').write(web_html)
-import shutil; shutil.copy(os.path.join(BASE, 'style.css'), os.path.join(docs, 'style.css'))
+shutil.copy(os.path.join(BASE, 'style.css'), os.path.join(docs, 'style.css'))
 print('Web version -> docs/index.html')
+
+if WEB_ONLY:
+    sys.exit(0)
+
+# ---- PDF ----
+from weasyprint import HTML
+doc = HTML(out_html).render()
+pdf = os.path.join(BASE, 'dovidnyk_vyzhyvannia.pdf')
+doc.write_pdf(pdf)
+print(f'Pages: {len(doc.pages)}  ->  {pdf}')

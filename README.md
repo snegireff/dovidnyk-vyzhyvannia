@@ -1,13 +1,17 @@
 # Довідник виживання
 
+[![Build](https://github.com/snegireff/dovidnyk-vyzhyvannia/actions/workflows/build.yml/badge.svg)](https://github.com/snegireff/dovidnyk-vyzhyvannia/actions/workflows/build.yml) [![Release](https://img.shields.io/github/v/release/snegireff/dovidnyk-vyzhyvannia?label=release)](https://github.com/snegireff/dovidnyk-vyzhyvannia/releases/latest) [![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE.md)
+
 Практичний паперовий довідник для цивільних на випадок війни, дронів, блекауту, пожежі, природних і техногенних катастроф та цифрових загроз. Українською. Працює без електрики й інтернету — його сенс у тому, щоб лежати роздрукованим поруч із тривожною валізою.
 
 **Версія 2.1 · вересень 2026 · 127 сторінок A4 · 30 розділів + 3 додатки**
 
 ## Завантажити
 
-- **PDF (друк, A4):** [dovidnyk_vyzhyvannia.pdf](dovidnyk_vyzhyvannia.pdf) — або стабільне посилання на останню версію: `https://github.com/USERNAME/dovidnyk-vyzhyvannia/releases/latest/download/dovidnyk_vyzhyvannia.pdf`
-- **Читати онлайн:** `https://USERNAME.github.io/dovidnyk-vyzhyvannia/` (після увімкнення GitHub Pages, див. нижче)
+- **PDF (друк, A4):** [dovidnyk_vyzhyvannia.pdf](dovidnyk_vyzhyvannia.pdf) — або стабільне посилання на останній реліз: <https://github.com/snegireff/dovidnyk-vyzhyvannia/releases/latest/download/dovidnyk_vyzhyvannia.pdf>
+- **Читати онлайн:** <https://snegireff.github.io/dovidnyk-vyzhyvannia/>
+
+**Як друкувати:** A4, двосторонній друк із перевертанням по довгому краю, чорно-білий. Для формату A5 — режим «буклет» у драйвері принтера (2 сторінки на аркуш, зшивання посередині). Обкладинку й «Перші 60 секунд» варто надрукувати на щільнішому папері.
 
 ## Що всередині
 
@@ -30,11 +34,21 @@
 
 Довідник зібрано з відкритих джерел цивільного захисту та першої допомоги (ДСНС, МОЗ, Червоний Хрест, міжнародні протоколи). Він **не замінює** офіційні інструкції служб і професійну медичну допомогу. Медичні розділи (7, 21, 22.5) **не рецензовані лікарем**, розділи 3–6 — не рецензовані ДСНС або сапером. Знайшли помилку або застарілу пораду — відкрийте [Issue](../../issues) або надішліть Pull Request: це найкращий спосіб допомогти.
 
+## Як допомогти
+
+Найкорисніше зараз:
+
+- **Лікар** — вичитати розділи 7, 21 і 22.5 (перша допомога, здоров'я, пологи).
+- **ДСНС / сапер / військовий** — вичитати розділи 3–6 (обстріли, дрони, міни, РХБ-захист).
+- **Хто живе в ЄС** — перевірити Додаток Б на актуальність (правила змінюються).
+- Будь-хто — знайти застарілий факт, неточний номер, русизм і відкрити [Issue](../../issues) або Pull Request.
+
 ## Як зібрати PDF самому
 
 ```bash
-pip install weasyprint          # потрібні шрифти DejaVu Sans
-python3 build.py                # -> dovidnyk_vyzhyvannia.pdf і docs/index.html
+pip install -r requirements.txt   # weasyprint; потрібні шрифти DejaVu Sans
+python3 build.py                  # -> dovidnyk_vyzhyvannia.pdf і docs/index.html
+python3 build.py --web-only       # лише веб-версія, без weasyprint
 ```
 
 Розділи — окремі HTML-файли в `chapters/` (порядок за іменем файлу), стилі — `style.css`. `build.py` збирає книгу, автоматично генерує зміст із номерами сторінок, колонтитули з назвами розділів і веб-версію в `docs/`.
@@ -42,7 +56,7 @@ python3 build.py                # -> dovidnyk_vyzhyvannia.pdf і docs/index.html
 ## Як оновити книгу
 
 1. Відредагуйте потрібний файл у `chapters/`.
-2. Запустіть `python3 build.py` (або просто зробіть push — GitHub Actions збере PDF автоматично).
+2. Зробіть push у `main` — GitHub Actions збере PDF і веб-версію та закомітить їх у репозиторій автоматично (локально запускати `build.py` не обов'язково).
 3. Змініть версію на титулі (`chapters/00_cover_toc.html`) та задній обкладинці (`chapters/99z_backcover.html`), додайте запис у `CHANGELOG.md`.
 4. Створіть реліз із тегом `vX.Y` — PDF прикріпиться до релізу автоматично, а посилання `releases/latest/download/...` завжди вестиме на найновішу версію.
 
