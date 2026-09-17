@@ -47,6 +47,8 @@ jobs:
 
       # Keep the in-repo PDF and GitHub Pages (docs/) in sync with chapters/ —
       # the author cannot run weasyprint locally, so CI commits the build back.
+      # No "[skip ci]" needed: pushes made with GITHUB_TOKEN never trigger workflows,
+      # and a "[skip ci]" commit would also block releases when a tag points at it.
       - name: Commit built files back to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -56,7 +58,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing to commit"
           else
-            git commit -m "build: оновити PDF і веб-версію [skip ci]"
+            git commit -m "build: оновити PDF і веб-версію"
             git push
           fi
 
