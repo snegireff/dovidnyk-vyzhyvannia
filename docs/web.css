@@ -1,0 +1,28 @@
+/* Overrides for reading the book in a browser (GitHub Pages). Print CSS stays in style.css. */
+:root { --bg: #ffffff; --fg: #1c1c1c; --muted: #555; --line: #d8d8d8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40; }
+}
+:root[data-theme="dark"] { --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40; }
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--fg); max-width: 820px; margin: 0 auto; padding: 0 16px 60px; font-size: 17px; line-height: 1.55; }
+h1, h2, h3 { color: var(--fg); }
+.cover, .cover.back { width: auto; height: auto; min-height: 0; padding: 36px 20px; margin: 0 -16px; }
+.cover .strip { margin-top: 0; }
+.cover .bottom { position: static; margin-top: 24px; }
+.toc ol.detailed { columns: 1; }
+.toc .l1 a, .toc .l2 a { padding-right: 0; }
+.toc a::after { display: none; }        /* no page numbers online */
+.toc { page-break-after: auto; }
+figure svg { max-width: 100%; height: auto; }
+figure { max-width: 100%; }
+.figrow { flex-wrap: wrap; }
+table { display: block; overflow-x: auto; max-width: 100%; border-color: var(--line); }
+td, th { border-color: var(--line); }
+th { color: #fff; }
+table.fill td { height: 2.2em; }
+.lines { display: none; }
+h1.chapter { page-break-before: auto; margin-top: 64px; }
+h1.chapter .chnum { display: block; }
+a { color: inherit; }
+.tip, .warning, .critical, .note { color: #1c1c1c; }

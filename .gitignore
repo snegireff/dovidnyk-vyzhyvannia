@@ -1,0 +1,4 @@
+book.html
+*.png
+__pycache__/
+*.pyc

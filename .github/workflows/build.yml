@@ -1,0 +1,37 @@
+name: Build PDF
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core libpango-1.0-0 libpangoft2-1.0-0 poppler-utils
+          pip install weasyprint
+      - name: Build
+        run: python3 build.py
+      - name: Check page count
+        run: pdfinfo dovidnyk_vyzhyvannia.pdf | grep Pages
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dovidnyk_vyzhyvannia
+          path: dovidnyk_vyzhyvannia.pdf
+      - name: Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dovidnyk_vyzhyvannia.pdf

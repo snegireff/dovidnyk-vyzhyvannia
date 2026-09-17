@@ -1,0 +1,249 @@
+@page {
+  size: A4;
+  margin: 20mm 16mm 18mm 16mm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "DejaVu Sans";
+    font-size: 9pt;
+    color: #555;
+  }
+  @top-center {
+    content: string(chapter);
+    text-transform: uppercase;
+    font-family: "DejaVu Sans";
+    font-size: 8pt;
+    letter-spacing: 2px;
+    color: #888;
+  }
+}
+
+@page cover {
+  margin: 0;
+  @bottom-center { content: none; }
+  @top-center { content: none; }
+}
+
+@page chapter-start {
+  @top-center { content: none; }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "DejaVu Sans", sans-serif;
+  font-size: 11pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ============ COVER ============ */
+.cover {
+  page: cover;
+  page-break-after: always;
+  width: 210mm;
+  height: 297mm;
+  background: #1c2b1e;
+  color: #f2ede1;
+  position: relative;
+  padding: 30mm 22mm;
+}
+.cover .strip {
+  border-top: 3px solid #d6a419;
+  border-bottom: 3px solid #d6a419;
+  padding: 10mm 0;
+  margin-top: 30mm;
+}
+.cover h1 {
+  font-size: 34pt;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: 1px;
+}
+.cover .subtitle {
+  font-size: 13pt;
+  margin-top: 8mm;
+  color: #cfc7b4;
+  line-height: 1.5;
+}
+.cover .bottom {
+  position: absolute;
+  bottom: 25mm;
+  left: 22mm;
+  right: 22mm;
+  font-size: 10pt;
+  color: #9aa593;
+  border-top: 1px solid #47543f;
+  padding-top: 5mm;
+}
+
+/* ============ HEADINGS ============ */
+h1.chapter {
+  page: chapter-start;
+  page-break-before: always;
+  font-size: 22pt;
+  color: #1c2b1e;
+  border-bottom: 4px solid #d6a419;
+  padding-bottom: 4mm;
+  margin: 0 0 6mm 0;
+}
+h1.chapter .chnum {
+  display: block;
+  font-size: 11pt;
+  color: #8a7a3a;
+  letter-spacing: 3px;
+  margin-bottom: 2mm;
+}
+h2 {
+  font-size: 14.5pt;
+  color: #24401f;
+  margin: 7mm 0 2.5mm 0;
+  page-break-after: avoid;
+}
+h3 {
+  font-size: 12pt;
+  color: #333;
+  margin: 5mm 0 2mm 0;
+  page-break-after: avoid;
+}
+p { margin: 0 0 3mm 0; text-align: justify; }
+
+/* ============ BOXES ============ */
+.warning, .tip, .critical, .note {
+  padding: 3.5mm 4mm 3.5mm 5mm;
+  margin: 4mm 0;
+  page-break-inside: avoid;
+  font-size: 10pt;
+}
+.warning { background: #fdf3e0; border-left: 4mm solid #e08a00; }
+.critical { background: #fdeaea; border-left: 4mm solid #c0392b; }
+.tip { background: #eaf3ea; border-left: 4mm solid #3d7a3d; }
+.note { background: #eef1f5; border-left: 4mm solid #5b7fa6; }
+.warning b:first-child, .critical b:first-child, .tip b:first-child, .note b:first-child { display: inline; }
+
+/* ============ LISTS ============ */
+ul, ol { margin: 1mm 0 3.5mm 0; padding-left: 6mm; }
+li { margin-bottom: 1.2mm; }
+ol.steps > li { margin-bottom: 2.5mm; }
+ul.checklist { list-style: none; padding-left: 1mm; }
+ul.checklist li { padding-left: 7mm; position: relative; margin-bottom: 1.6mm; }
+ul.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.9mm;
+  width: 3.4mm; height: 3.4mm;
+  border: 0.5mm solid #555;
+}
+
+/* ============ TABLES ============ */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 3mm 0 4mm 0;
+  font-size: 9.5pt;
+  page-break-inside: auto;
+}
+th {
+  background: #24401f;
+  color: #fff;
+  padding: 2mm 2.5mm;
+  text-align: left;
+  font-size: 9.5pt;
+}
+td {
+  border: 0.4pt solid #999;
+  padding: 1.8mm 2.5mm;
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #f3f5f1; }
+
+/* ============ FIGURES ============ */
+figure {
+  margin: 4mm 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+figure svg { max-width: 100%; }
+figcaption {
+  font-size: 9pt;
+  color: #555;
+  margin-top: 1.5mm;
+  font-style: italic;
+}
+.figrow { display: flex; gap: 4mm; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+.figrow figure { flex: 1; min-width: 45mm; }
+
+/* ============ TOC ============ */
+.toc h1 {
+  font-size: 22pt;
+  color: #1c2b1e;
+  border-bottom: 4px solid #d6a419;
+  padding-bottom: 4mm;
+}
+.toc ol { list-style: none; padding: 0; }
+.toc li {
+  margin-bottom: 2.6mm;
+  font-size: 11.5pt;
+}
+.toc a {
+  text-decoration: none;
+  color: #1a1a1a;
+  display: block;
+  position: relative;
+}
+.toc a::after {
+  content: target-counter(attr(href), page);
+  position: absolute;
+  right: 0;
+  font-weight: bold;
+  color: #24401f;
+}
+.toc .l2 { padding-left: 8mm; font-size: 9.5pt; color: #444; margin-bottom: 1.2mm; }
+
+/* ============ MISC ============ */
+.two-col { column-count: 2; column-gap: 7mm; }
+.keep { page-break-inside: avoid; }
+.big-number {
+  font-size: 15pt;
+  font-weight: bold;
+  color: #b0121a;
+}
+.disclaimer {
+  font-size: 9pt;
+  color: #444;
+  border: 0.5pt solid #999;
+  padding: 4mm;
+  margin-top: 8mm;
+}
+.dosage-table td:first-child { font-weight: bold; }
+.chapter-intro {
+  font-size: 11.5pt;
+  color: #3a4a38;
+  font-style: italic;
+  margin-bottom: 5mm;
+}
+code { font-family: "DejaVu Sans Mono"; font-size: 9pt; background: #eee; padding: 0 1mm; }
+
+
+/* ============ v2.0 additions ============ */
+h1.chapter .chtitle { string-set: chapter content(); }
+.cover .version { font-size: 10.5pt; color: #d6a419; margin-top: 6mm; letter-spacing: 0.5px; }
+.toc ol.detailed { columns: 2; column-gap: 9mm; }
+.toc ol.detailed li { break-inside: avoid; }
+.toc .l1 { font-weight: bold; font-size: 10.5pt; margin-top: 2.2mm; margin-bottom: 1mm; }
+.toc .l1 a { color: #1c2b1e; }
+.toc .l2 { padding-left: 5mm; font-size: 8.8pt; color: #444; margin-bottom: 0.6mm; }
+.toc .l2 a { padding-right: 9mm; }
+.toc .l1 a { padding-right: 9mm; }
+.toc .disclaimer { margin-top: 6mm; }
+table.fill td { height: 8.5mm; }
+table.fill { page-break-inside: avoid; }
+.lines { height: 110mm; margin-top: 3mm; background: repeating-linear-gradient(to bottom, transparent 0, transparent 7.6mm, #9a9a9a 7.6mm, #9a9a9a 7.8mm); }
+.cover.back { page-break-before: always; page-break-after: auto; }
+.cover.back .strip { margin-top: 18mm; }
+.cover.back ol.backlist { color: #f2ede1; font-size: 11.5pt; line-height: 1.45; padding-left: 7mm; margin: 5mm 0 0 0; }
+.cover.back ol.backlist li { margin-bottom: 3.5mm; }
+.cover.back .numbers { margin-top: 9mm; color: #cfc7b4; font-size: 12pt; }
+.cover.back .numbers div { margin-bottom: 1.5mm; }
+.cover.back .numbers span { display: inline-block; width: 22mm; font-size: 20pt; font-weight: bold; color: #d6a419; }
+.figrow figure { min-width: 40mm; }
