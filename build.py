@@ -19,7 +19,7 @@ body = re.sub(r'(<h1 class="chapter" id="[^"]+"><span class="chnum">[^<]*</span>
 
 # 2) auto ids for numbered h2 (sN-M) and lettered appendix h2 (sБ-1)
 body = re.sub(r'<h2>(\d+)\.(\d+)\.', lambda m: f'<h2 id="s{m.group(1)}-{m.group(2)}">{m.group(1)}.{m.group(2)}.', body)
-body = re.sub(r'<h2>([БВ])\.(\d+)\.', lambda m: f'<h2 id="s{m.group(1)}-{m.group(2)}">{m.group(1)}.{m.group(2)}.', body)
+body = re.sub(r'<h2>([БВГ])\.(\d+)\.', lambda m: f'<h2 id="s{m.group(1)}-{m.group(2)}">{m.group(1)}.{m.group(2)}.', body)
 
 # 3) build detailed TOC from h1.chapter + h2
 toc = ['<ol class="detailed">']

@@ -1,28 +1,64 @@
 /* Overrides for reading the book in a browser (GitHub Pages). Print CSS stays in style.css. */
-:root { --bg: #ffffff; --fg: #1c1c1c; --muted: #555; --line: #d8d8d8; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40; }
+:root {
+  --bg: #ffffff; --fg: #1c1c1c; --muted: #555; --line: #d8d8d8;
+  --head: #24401f; --accent: #8a7a3a; --zebra: #f3f5f1; --code: #eee; --paper: transparent; --danger: #b0121a;
+  --warning-bg: #fdf3e0; --critical-bg: #fdeaea; --tip-bg: #eaf3ea; --note-bg: #eef1f5;
 }
-:root[data-theme="dark"] { --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40;
+    --head: #a9cfa0; --accent: #d6a419; --zebra: #1f2326; --code: #2a2e31; --paper: #f4f1e8; --danger: #ff7b72;
+    --warning-bg: #3a2c10; --critical-bg: #3d1b1b; --tip-bg: #1b2e1d; --note-bg: #1d2733;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16181a; --fg: #e6e2d8; --muted: #b5b0a5; --line: #3a3d40;
+  --head: #a9cfa0; --accent: #d6a419; --zebra: #1f2326; --code: #2a2e31; --paper: #f4f1e8; --danger: #ff7b72;
+  --warning-bg: #3a2c10; --critical-bg: #3d1b1b; --tip-bg: #1b2e1d; --note-bg: #1d2733;
+}
 html { background: var(--bg); }
 body { background: var(--bg); color: var(--fg); max-width: 820px; margin: 0 auto; padding: 0 16px 60px; font-size: 17px; line-height: 1.55; }
-h1, h2, h3 { color: var(--fg); }
+h1, h3, h1.chapter, .toc h1 { color: var(--fg); }
+h2 { color: var(--head); }
+h1.chapter .chnum { color: var(--accent); }
+p { text-align: left; }
+.chapter-intro, figcaption, .disclaimer { color: var(--muted); }
+.disclaimer { border-color: var(--line); }
+.big-number { color: var(--danger); }
+code { background: var(--code); color: var(--fg); }
+ul.checklist li::before { border-color: var(--muted); }
+
 .cover, .cover.back { width: auto; height: auto; min-height: 0; padding: 36px 20px; margin: 0 -16px; }
+.cover h1 { color: #f2ede1; font-size: clamp(30px, 8vw, 45px); }
 .cover .strip { margin-top: 0; }
 .cover .bottom { position: static; margin-top: 24px; }
+
 .toc ol.detailed { columns: 1; }
-.toc .l1 a, .toc .l2 a { padding-right: 0; }
+.toc a, .toc .l1 a { color: var(--fg); padding-right: 0; }
+.toc .l2, .toc .l2 a { color: var(--muted); padding-right: 0; }
 .toc a::after { display: none; }        /* no page numbers online */
 .toc { page-break-after: auto; }
-figure svg { max-width: 100%; height: auto; }
+
+/* Diagrams are drawn for white paper: keep them on a paper card in dark mode. */
 figure { max-width: 100%; }
+figure svg { max-width: calc(100% - 16px); height: auto; background: var(--paper); border-radius: 6px; padding: 8px; box-sizing: content-box; }
+figure svg text { font-family: "DejaVu Sans", Verdana, sans-serif; }
 .figrow { flex-wrap: wrap; }
+
 table { display: block; overflow-x: auto; max-width: 100%; border-color: var(--line); }
 td, th { border-color: var(--line); }
 th { color: #fff; }
+tr:nth-child(even) td { background: var(--zebra); }
 table.fill td { height: 2.2em; }
-.lines { display: none; }
+.lines { height: auto; min-height: 6em; border: 1px dashed #9a9a9a; }
+.two-col { column-count: 1; }
+
 h1.chapter { page-break-before: auto; margin-top: 64px; }
 h1.chapter .chnum { display: block; }
 a { color: inherit; }
-.tip, .warning, .critical, .note { color: #1c1c1c; }
+.tip, .warning, .critical, .note { color: var(--fg); }
+.warning { background: var(--warning-bg); }
+.critical { background: var(--critical-bg); }
+.tip { background: var(--tip-bg); }
+.note { background: var(--note-bg); }
+@media (min-width: 700px) { .two-col { column-count: 2; } }
